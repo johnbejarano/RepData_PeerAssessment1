@@ -17,9 +17,9 @@ setwd("H:\\Data Science\\RepData_PeerAssessment1\\RepData_PeerAssessment1")
 stepdata <- read.csv("activity\\activity.csv")
 ```
 
-First, we'll convert the dates to an actual datetime data type.  Then, we'll deal with the time of day.  This data is organized in five-minute intervals.  That is, each five minutes, there is one row of data indicating the number of steps taken over the previous five minutes.  The date is kept the "date" column, and the time of day is kept in the "interval" column.  
+First, we'll convert the dates to an actual datetime data type.  Then, we'll deal with the time of day.  This data is organized in five-minute intervals.  That is, each five minutes, there is one row of data indicating the number of steps taken over the previous five minutes.  The date is kept in the "date" column, and the time of day is kept in the "interval" column.  
 
-However, the time of day is stored as an integer of the form, *hhmm*, with no leading zeroes.  Thus 12:05am is stored as 5, while 2:30pm is stored as 1430.  This presents a hazard.  If we treat these integer values for the time of day as is, then when plotting, all of the intervals between fifty-five minutes past the hour, and the top of the hour will appear to be 45 minutes long relative to all of the other five minute intervals.  These timestamps will need to be processed to make them more useful in the analysis.
+However, the time of day is stored as an integer of the form, *hhmm*, with no leading zeroes.  Thus 12:05am is stored as 5, while 2:30pm is stored as 1430.  This presents a hazard.  If we treat these integer values for the time of day *as is*, then when plotting, all of the intervals between fifty-five minutes past the hour, and the top of the hour will appear to be forty-five minutes long relative to all of the other five minute intervals.  These timestamps will need to be processed to make them more useful in the analysis.
 
 
 ```r
@@ -32,7 +32,7 @@ stepdata$time <- with(stepdata, paste(str_pad(floor(interval/100), 2, pad = "0")
 stepdata$hour <- with(stepdata, floor(interval/100) + (interval %% 100) / 60)
 ```
 
-Now, the time interval, stored in a new column called "time", is in a more human-readable format (though still using 24-hour time).  Plus, we have a continuous numeric variable called "hour" that indicates the number of hours so far in the day.  This can be useful for plotting purposes.
+Now, the time interval, stored in a new column called "time", is in a more human-readable format (though still using 24-hour time).  Plus, we have a continuous numeric variable called "hour" that indicates the number of hours so far in the day.  This will be useful for plotting purposes.
 
 ## What is the mean total number of steps taken per day?
 
@@ -100,7 +100,7 @@ print(g2)
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
 
-Note, that I am computing both mean number steps for each five-minute interval which are shown in the plot, and also the median number of steps for each five-minute interval that I will use to impute values for missing data below.
+Note, that I am computing both the mean number of steps for each five-minute interval which are shown in the plot, and also the median number of steps for each five-minute interval that I will use to impute values for missing data below.
 
 The data indicate that the most active time in this individual's day (based on the mean number of steps during each five-minute interval) is mid-morning from about 8:00am until about 9:30am.  This may be this individual's designated workout time, or there may be a day or two where there was an unusually large amount of activity at this time thus causing the mean to spike.  There are other lesser but still notable peaks around mid-day, late afternoon, and evening time, potentially indicating activity around lunchtime, an evening commute, and dinnertime.  The causes of these spikes are just speculation, but the data does recommend further inquiry into the individual's activity at these times.
 
