@@ -1,5 +1,10 @@
-# Reproducible Research: Peer Assessment 1
-John Bejarano  
+---
+title: 'Reproducible Research: Peer Assessment 1'
+author: "John Bejarano"
+output:
+  html_document:
+    keep_md: yes
+---
 This purpose of this assignment is to analyze step data from a personal activity monitor, find some descriptive statistics and patterns to this step data, and present it in a comprehensive R Markdown file.  The data was captured by an individual that collected data throughout October and November, 2012.
 
 ## Loading and preprocessing the data
@@ -46,7 +51,7 @@ g1 <- g1 + labs(x = "Daily Steps",
 print(g1)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
 
 Aside from a number of zero-step or very-low-step days (likely due to missing data), modally, our subject usually walks a bit over 10,000 steps per day.  As 10,000 steps is often a stated goal in many exercise programs and fitness literature, this may not be a random effect.
 
@@ -78,26 +83,6 @@ Next, let's look at the average daily activity pattern with respect to the time 
 
 ```r
 library(dplyr)
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-## 
-## The following objects are masked from 'package:lubridate':
-## 
-##     intersect, setdiff, union
-## 
-## The following object is masked from 'package:stats':
-## 
-##     filter
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 dailypatterndata <- stepdata %>%
      select(hour, steps) %>%
      group_by(hour) %>%
@@ -113,7 +98,7 @@ g2 <- g2 + labs(x = "Hour Of The Day",
 print(g2)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
 
 Note, that I am computing both mean number steps for each five-minute interval which are shown in the plot, and also the median number of steps for each five-minute interval that I will use to impute values for missing data below.
 
@@ -159,7 +144,7 @@ g3 <- g3 + labs(x = "Daily Steps",
 print(g3)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
 
 If you compare the two histograms, you'll see that a number of days that were listed as zero have been moved to the right in the new histogram with imputed data.  As these missing datapoints were originally assumed to be zero, but now have positive numbers imputed from the medians of their respective five-minute intervals, we would expect that if there were any change, the total number of steps would increase.  This is evident in the histogram.
 
@@ -217,7 +202,7 @@ g4 <- g4 + labs(x = "Hour Of The Day",
 print(g4)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
 
 Now that we've split the activity between weekdays and weekends, we see that the original pattern with a large spike in the morning, and three additional spikes at mid-day, late afternoon, and in the evening is more prominent during weekdays.  The pattern is far less coherent during weekends.
 
